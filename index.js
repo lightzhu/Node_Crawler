@@ -28,7 +28,7 @@ app.use(bodyParser());
 app.use(router.routes()).use(router.allowedMethods());
 // 在端口监听:
 console.log(process.env.NODE_ENV);
-const port = process.env.PORT || '9090';
+const port = process.env.PORT || '8080';
 app.listen(port);
 
 // 开始任务

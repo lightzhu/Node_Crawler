@@ -1,5 +1,6 @@
 const Koa = require('koa')
 const compress = require('koa-compress')
+const cors = require('koa-cors')
 const path = require('path')
 const serve = require('koa-static')
 const bodyParser = require('koa-bodyparser')
@@ -25,6 +26,7 @@ const app = new Koa()
 // 启用gzip
 const options = { threshold: 2048 }
 app.use(compress(options))
+app.use(cors())
 
 const home = serve(path.join(__dirname) + '/public/')
 app.use(home)

@@ -19,6 +19,10 @@ Node.js 项目，管理一些接口,并将代码发布到托管云平台
 
 - 在 package.json 里设置对应的运行命令 export NODE_ENV='development'
 
+# 启用服务端 gzip
+
+- 安装并使用 koa-compress 插件
+
 # 关于 heroku 的部署
 
 - 安装 heroku 客户端

@@ -3,6 +3,8 @@ const Router = require('koa-router')
 const router = new Router()
 const User = require('../mongoose/UserModel.js')
 const MovieDetail = require('../mongoose/MovieListModel.js')
+const request = require('request')
+const NewsAppKey = 'd6b425961ff54c50c8a4fb7ceb1d63bd'
 router.get('/page', async ctx => {
   let html = `
     <ul>
@@ -109,5 +111,35 @@ router.get('/get_movies', async ctx => {
       }
     }
   )
+})
+
+router.get('/get_news', async ctx => {
+  console.log(ctx.query)
+  let type = ctx.query.type
+  let resp = await new Promise((resolve, reject) => {
+    request(
+      {
+        method: 'get',
+        url: `http://v.juhe.cn/toutiao/index?type=${type}&key=${NewsAppKey}`
+      },
+      function(err, res) {
+        if (err) {
+          reject({
+            code: 202,
+            msg: '获取数据失败'
+          })
+          console.log(err)
+        } else {
+          console.log(res.body)
+          resolve({
+            code: 200,
+            msg: '获取成功',
+            data: JSON.parse(res.body).result.data
+          })
+        }
+      }
+    )
+  })
+  ctx.body = resp
 })
 module.exports = router

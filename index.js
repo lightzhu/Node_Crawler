@@ -26,7 +26,12 @@ const app = new Koa()
 // 启用gzip
 const options = { threshold: 2048 }
 app.use(compress(options))
-app.use(cors())
+app.use(
+  cors({
+    origin: ['https://lightzhu.github.io'],
+    credentials: true
+  })
+)
 
 const home = serve(path.join(__dirname) + '/public/')
 app.use(home)

@@ -130,11 +130,41 @@ router.get('/get_news', async ctx => {
           })
           console.log(err)
         } else {
-          console.log(res.body)
           resolve({
             code: 200,
             msg: '获取成功',
             data: JSON.parse(res.body).result.data
+          })
+        }
+      }
+    )
+  })
+  ctx.body = resp
+})
+router.get('/get_weatherInfo', async ctx => {
+  console.log(ctx.query)
+  let city = ctx.query.city
+  let resp = await new Promise((resolve, reject) => {
+    request(
+      {
+        method: 'get',
+        url: `http://apis.juhe.cn/simpleWeather/query?city=${encodeURI(
+          city
+        )}&key=6b53946c4d8af6822829a63da7a36675`
+      },
+      function(err, res) {
+        if (err) {
+          reject({
+            code: 202,
+            msg: '获取数据失败'
+          })
+          console.log(err)
+        } else {
+          console.log(res.body)
+          resolve({
+            code: 200,
+            msg: '获取成功',
+            data: JSON.parse(res.body).result
           })
         }
       }

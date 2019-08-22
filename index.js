@@ -16,7 +16,6 @@ mongoose.connect(MAINDB, {
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', function() {
-  // we're connected!
   console.log('连接成功')
   //实体的实例化
 })

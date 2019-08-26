@@ -27,7 +27,12 @@ const options = { threshold: 2048 }
 app.use(compress(options))
 app.use(
   cors({
-    origin: ['https://lightzhu.github.io'],
+    origin: function(ctx) {
+      if (ctx.url === '/test') {
+        return '*' // 允许来自所有域名请求
+      }
+      return 'https://imov.herokuapp.com'
+    },
     credentials: true
   })
 )

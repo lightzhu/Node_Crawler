@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const { USERDB } = require('../dbConfig.js')
+const { USERDB } = require('../dbConfig')
 const dbUser = mongoose.createConnection(USERDB, {
   useNewUrlParser: true
 })
 dbUser.on('error', console.error.bind(console, 'connection error:'))
-dbUser.once('open', function() {
+dbUser.once('open', function () {
   // we're connected!
   console.log('用户数据库连接成功')
   //实体的实例化
@@ -17,6 +17,7 @@ let User_Schema = new Schema(
   {
     name: String,
     hobby: String,
+    password: String,
     pwd: String,
     date: Date
   },

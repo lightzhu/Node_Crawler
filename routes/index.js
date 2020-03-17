@@ -20,10 +20,11 @@ router.post('/register', async (ctx, next) => {
   let light = new User({
     name: ctx.request.body.userName,
     pwd: ctx.request.body.pwd,
+    password: ctx.request.body.password,
     hobby: ctx.request.body.hobby,
     date: Date.now()
   })
-  let doc = await User.findOne({ name: ctx.request.body.userName }, function(
+  let doc = await User.findOne({ name: ctx.request.body.userName }, function (
     err,
     docs
   ) {
@@ -39,7 +40,7 @@ router.post('/register', async (ctx, next) => {
     return false
   }
   let resp = await new Promise((resolve, reject) => {
-    light.save(function(err, doc) {
+    light.save(function (err, doc) {
       if (err) {
         reject(err)
       } else {
@@ -58,7 +59,8 @@ router.post('/login', async (ctx, next) => {
   // console.log(ctx.request.body);
   let name = ctx.request.body.userName
   let pwd = ctx.request.body.pwd
-  await User.findOne({ name }, function(err, docs) {
+  console.log(ctx.request.body)
+  await User.findOne({ name }, function (err, docs) {
     if (err) {
       console.log(err)
     } else {
@@ -96,7 +98,7 @@ router.get('/get_movies', async ctx => {
     {},
     null,
     { sort: { type: -1 }, skip: 10 * page, limit: size },
-    function(err, docs) {
+    function (err, docs) {
       if (err) {
         ctx.body = {
           code: 202,
@@ -122,7 +124,7 @@ router.get('/get_news', async ctx => {
         method: 'get',
         url: `http://v.juhe.cn/toutiao/index?type=${type}&key=${NewsAppKey}`
       },
-      function(err, res) {
+      function (err, res) {
         if (err) {
           reject({
             code: 202,
@@ -152,7 +154,7 @@ router.get('/get_weatherInfo', async ctx => {
           city
         )}&key=6b53946c4d8af6822829a63da7a36675`
       },
-      function(err, res) {
+      function (err, res) {
         if (err) {
           reject({
             code: 202,

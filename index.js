@@ -5,7 +5,7 @@ const path = require('path')
 const serve = require('koa-static')
 const bodyParser = require('koa-bodyparser')
 const router = require('./routes/index.js')
-const { MAINDB } = require('./dbConfig.js')
+const { MAINDB } = require('./dbConfig')
 const mongoose = require('mongoose')
 const movieTask = require('./task/movieTask.js')
 
@@ -15,7 +15,7 @@ mongoose.connect(MAINDB, {
 })
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
-db.once('open', function() {
+db.once('open', function () {
   console.log('连接成功')
   //实体的实例化
 })
@@ -27,11 +27,12 @@ const options = { threshold: 2048 }
 app.use(compress(options))
 app.use(
   cors({
-    origin: function(ctx) {
+    origin: function (ctx) {
       if (ctx.url === '/test') {
         return '*' // 允许来自所有域名请求
       }
       return 'https://lightzhu.github.io'
+
     },
     credentials: true
   })

@@ -393,11 +393,12 @@ module.exports = {
     // rule.second = 0;
     rule.minute = [0, 20, 40];
     schedule.scheduleJob(rule, function () {
-      console.log(promiseArr.length);
+      // console.log(promiseArr.length);
       // 所有数据源拿到之后更新电影表
       Promise.all(promiseArr)
         .then(result => {
           console.log('采集完成')
+          console.log(result.length);
           for (let i = 0; i < result.length; i++) {
             movieList = movieList.concat(result[i])
           }

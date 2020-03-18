@@ -395,29 +395,29 @@ module.exports = {
     schedule.scheduleJob(rule, function () {
       console.log(promiseArr.length);
       // 所有数据源拿到之后更新电影表
-      // Promise.all(promiseArr)
-      //   .then(result => {
-      //     console.log('采集完成')
-      //     for (let i = 0; i < result.length; i++) {
-      //       movieList = movieList.concat(result[i])
-      //     }
-      //     Movie.deleteMany({}).then(() => {
-      //       Movie.insertMany(movieList, (err, res) => {
-      //         if (err) {
-      //           console.log(err)
-      //         } else {
-      //           // console.log(res);
-      //           newMovies = res
-      //           MovieDetail.deleteMany({}).then(() => {
-      //             updateMoviesList(res)
-      //           })
-      //         }
-      //       })
-      //     })
-      //   })
-      //   .catch(error => {
-      //     console.log(error)
-      //   })
+      Promise.all(promiseArr)
+        .then(result => {
+          console.log('采集完成')
+          for (let i = 0; i < result.length; i++) {
+            movieList = movieList.concat(result[i])
+          }
+          Movie.deleteMany({}).then(() => {
+            Movie.insertMany(movieList, (err, res) => {
+              if (err) {
+                console.log(err)
+              } else {
+                // console.log(res);
+                newMovies = res
+                MovieDetail.deleteMany({}).then(() => {
+                  updateMoviesList(res)
+                })
+              }
+            })
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
     })
   }
 }

@@ -384,36 +384,40 @@ module.exports = {
   run: function () {
     var rule = new schedule.RecurrenceRule()
     // 执行的时间间隔
-    var times = [1, 16, 26, 36, 46, 56];
-    rule.minute = times;
-    // var hours = [5, 17] // 一天运行两次
+    // var times = [1, 16, 26, 36, 46, 56];
+    // rule.minute = times;
+    // var hours = [0, 17] // 一天运行两次
     // rule.hour = hours
+    // 每小时30分钟执行
+    // rule.minute = 30;
+    // rule.second = 0;
+    rule.minute = 35; rule.second = 0;
     schedule.scheduleJob(rule, function () {
-      // console.log(promiseArr.length);
+      console.log(promiseArr.length);
       // 所有数据源拿到之后更新电影表
-      Promise.all(promiseArr)
-        .then(result => {
-          console.log('采集完成')
-          for (let i = 0; i < result.length; i++) {
-            movieList = movieList.concat(result[i])
-          }
-          Movie.deleteMany({}).then(() => {
-            Movie.insertMany(movieList, (err, res) => {
-              if (err) {
-                console.log(err)
-              } else {
-                // console.log(res);
-                newMovies = res
-                MovieDetail.deleteMany({}).then(() => {
-                  updateMoviesList(res)
-                })
-              }
-            })
-          })
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      // Promise.all(promiseArr)
+      //   .then(result => {
+      //     console.log('采集完成')
+      //     for (let i = 0; i < result.length; i++) {
+      //       movieList = movieList.concat(result[i])
+      //     }
+      //     Movie.deleteMany({}).then(() => {
+      //       Movie.insertMany(movieList, (err, res) => {
+      //         if (err) {
+      //           console.log(err)
+      //         } else {
+      //           // console.log(res);
+      //           newMovies = res
+      //           MovieDetail.deleteMany({}).then(() => {
+      //             updateMoviesList(res)
+      //           })
+      //         }
+      //       })
+      //     })
+      //   })
+      //   .catch(error => {
+      //     console.log(error)
+      //   })
     })
   }
 }

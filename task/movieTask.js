@@ -391,7 +391,7 @@ module.exports = {
     // 每小时30分钟执行
     // rule.minute = 30;
     // rule.second = 0;
-    rule.minute = 40; rule.second = 0;
+    rule.minute = 10; rule.second = 0;
     schedule.scheduleJob(rule, function () {
       console.log(promiseArr.length);
       // 所有数据源拿到之后更新电影表

@@ -5,7 +5,6 @@ const cheerio = require('cheerio')
 const iconv = require('iconv-lite')
 const moment = require('moment')
 const schedule = require('node-schedule')
-let movieList = []
 let newMovies = []
 const btbttfn = function (str, item) {
   let $ = cheerio.load(str)
@@ -135,8 +134,8 @@ const dytt8fn = function (str, item) {
 }
 const movieSrc = [
   {
-    dist: 'http://www.btbtdy.me/btfl/dy1.html',
-    host: 'http://www.btbtdy.me',
+    dist: 'http://www.btbtdy.la/btfl/dy1.html',
+    host: 'http://www.btbtdy.la',
     type: 'target',
     charset: 'UTF-8',
     category: '1',
@@ -150,17 +149,9 @@ const movieSrc = [
     category: '2',
     deal: dytt8fn
   },
-  // {
-  //   dist: 'https://www.foxizy.com/hot/hot_movie.html',
-  //   host: 'https://www.foxizy.com',
-  //   type: 'target',
-  //   charset: 'UTF-8',
-  //   category: '3',
-  //   deal: foxizyfn
-  // }
   {
-    dist: 'http://www.1btbtt.com',
-    host: 'http://www.1btbtt.com',
+    dist: 'http://www.2btjia.com',// http://415.net
+    host: 'http://www.2btjia.com',
     type: 'blank',
     charset: 'UTF-8',
     category: '0',
@@ -390,20 +381,41 @@ module.exports = {
     // rule.hour = hours
     // 每小时30分钟执行
     // rule.minute = 30;
-    // rule.second = 0;
     rule.minute = [0, 20, 40];
+    // rule.second = 0;
     schedule.scheduleJob(rule, function () {
       // console.log(promiseArr.length);
       // 所有数据源拿到之后更新电影表
+      let movieList = [];
       Promise.all(promiseArr)
         .then(result => {
           console.log('采集完成')
-          console.log(result.length);
           for (let i = 0; i < result.length; i++) {
             movieList = movieList.concat(result[i])
           }
+          let movies = []
+          // 去除重名
+
+          movieList.forEach((item) => {
+            if (movies.length == 0) {
+              movies.push(item)
+            } else {
+              let had = false;
+              for (let j = 0; j < movies.length; j++) {
+                let mo = movies[j]
+                if (item.title == mo.title) {
+                  had = true;
+                  break;
+                }
+              }
+              if (!had) {
+                movies.push(item)
+              }
+            }
+          })
+          console.log(movies.length)
           Movie.deleteMany({}).then(() => {
-            Movie.insertMany(movieList, (err, res) => {
+            Movie.insertMany(movies, (err, res) => {
               if (err) {
                 console.log(err)
               } else {

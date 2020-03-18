@@ -33,3 +33,18 @@ Node.js 项目，管理一些接口,并将代码发布到托管云平台
 - 载创建自己想要的应用名称，herku create [appname],生成应用的 heroku git 地址
 - 手动将这个源地址关联到项目上去 git remote add [源名称][源地址]
 - 将项目推送到 heroku 源中，项目会自动部署
+
+# 将项目部署到 gearhost（免费的小程序托管云平台）
+
+- gearhost 里面创建一个项目
+- github 上面创建一个项目
+- gitclone 到本地
+- 将 gearhost 里面的 LocalGit Deployments 的项目地址添加的 git 中
+- git remote add websites https://${你的项目名称}.scm.gear.host/${你的项目名称}.git
+- 接下来就可以往 gearhost 的地址源里 push 你的代码了
+- 在 gearhost 的项目面板里面设置 node 的版本号
+- 不要指定 app 的端口，优先使用 process.env.PORT
+
+# 设置开发环境
+
+- 在 package.json 里设置对应的运行命令 export NODE_ENV='development'

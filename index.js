@@ -42,13 +42,13 @@ const home = serve(path.join(__dirname) + '/public/')
 app.use(home)
 app.use(bodyParser())
 // 加载路由中间件
-app.use(router.routes()).use(router.allowedMethods())
+// app.use(router.routes()).use(router.allowedMethods())
+
 // 在端口监听:
 console.log(process.env.NODE_ENV)
 const port = process.env.PORT || '8080'
-app.listen(port)
 
+app.listen(port)
 // 开始任务
 movieTask.run()
-
 console.log(`app started at port ${port}`)

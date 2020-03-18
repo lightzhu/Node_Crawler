@@ -1,7 +1,7 @@
 {
   "name": "nodeapi",
   "version": "1.0.0",
-  "description": "node ,koa 接口管理",
+  "description": "node 爬虫小程序",
   "main": "index.js",
   "scripts": {
     "test": "export NODE_ENV='development' && nodemon index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lightzhu/NodeAPI.git"
+    "url": "git+https://github.com/lightzhu/Node_Crawler.git"
   },
   "keywords": [
     "koa",
@@ -21,9 +21,9 @@
   "author": "lightzhu",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/lightzhu/NodeAPI/issues"
+    "url": "https://github.com/lightzhu/Node_Crawler/issues"
   },
-  "homepage": "https://github.com/lightzhu/NodeAPI#readme",
+  "homepage": "https://github.com/lightzhu/Node_Crawler#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "iconv-lite": "^0.5.0",

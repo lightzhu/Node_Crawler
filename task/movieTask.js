@@ -7,10 +7,10 @@ const moment = require('moment')
 const schedule = require('node-schedule')
 let movieList = []
 let newMovies = []
-const btbttfn = function(str, item) {
+const btbttfn = function (str, item) {
   let $ = cheerio.load(str)
   let list = []
-  $('table.thread').each(function(key, value) {
+  $('table.thread').each(function (key, value) {
     if (key > 1) {
       let title = $(this)
         .find('td')
@@ -47,10 +47,10 @@ const btbttfn = function(str, item) {
   })
   return list
 }
-const btbtdyfn = function(str, item) {
+const btbtdyfn = function (str, item) {
   let $ = cheerio.load(str)
   let list = []
-  $('.list_su ul>li').each(function(key, value) {
+  $('.list_su ul>li').each(function (key, value) {
     let $tag = $(this).find('.liimg>a')
     let title = $tag.attr('title')
     let dist = item.host + $tag.attr('href')
@@ -68,10 +68,10 @@ const btbtdyfn = function(str, item) {
   })
   return list
 }
-const foxizyfn = function(str, item) {
+const foxizyfn = function (str, item) {
   let $ = cheerio.load(str)
   let list = []
-  $('.panel-body .row>.col-md-6').each(function(key, value) {
+  $('.panel-body .row>.col-md-6').each(function (key, value) {
     let $tag = $(this)
       .find('.info-sec')
       .eq(0)
@@ -97,10 +97,10 @@ const foxizyfn = function(str, item) {
   })
   return list
 }
-const dytt8fn = function(str, item) {
+const dytt8fn = function (str, item) {
   let $ = cheerio.load(str)
   let list = []
-  $('.co_content8 ul table').each(function(key, value) {
+  $('.co_content8 ul table').each(function (key, value) {
     let $tag = $(this)
       .find('tr')
       .eq(1)
@@ -182,8 +182,8 @@ movieSrc.forEach((item, key) => {
     }
   }
   promiseArr.push(
-    new Promise(function(resolve, reject) {
-      request(options, function(err, res) {
+    new Promise(function (resolve, reject) {
+      request(options, function (err, res) {
         if (err) {
           console.log(err)
           reject(err)
@@ -208,14 +208,14 @@ function updateMoviesList(data) {
       url: item.dist //item.dist
     }
     if (item.type === 'blank') {
-      request(options, function(err, res) {
+      request(options, function (err, res) {
         if (err) {
           console.log(err)
         } else {
           let $ = cheerio.load(res.body.toString())
           let $contentp = $('.post_td .message').find('p')
           let content = ''
-          $contentp.each(function(key, value) {
+          $contentp.each(function (key, value) {
             if (
               $(this)
                 .text()
@@ -256,7 +256,7 @@ function updateMoviesList(data) {
           url: item.dist,
           encoding: null
         }
-        request(options, function(err, res) {
+        request(options, function (err, res) {
           if (err) {
             console.log(err)
           } else {
@@ -292,12 +292,12 @@ function updateMoviesList(data) {
         })
       } else if (item.category == '1') {
         // 1
-        request(options, function(err, res) {
+        request(options, function (err, res) {
           if (err) {
             console.log(err)
           } else {
             let $ = cheerio.load(res.body.toString())
-            request(`http://www.btbtdy.me/vidlist/${item.id}.html`, function(
+            request(`http://www.btbtdy.me/vidlist/${item.id}.html`, function (
               err,
               res2
             ) {
@@ -329,7 +329,7 @@ function updateMoviesList(data) {
           }
         })
       } else if (item.category == '3') {
-        request(options, function(err, res) {
+        request(options, function (err, res) {
           if (err) {
             console.log(err)
           } else {
@@ -381,19 +381,19 @@ function updateMoviesList(data) {
 }
 
 module.exports = {
-  run: function() {
+  run: function () {
     var rule = new schedule.RecurrenceRule()
     // 执行的时间间隔
-    // var times = [1, 6, 11, 16, 21, 26, 31, 36, 41, 46, 51, 56];
-    // rule.minute = times;
-    var hours = [5, 17] // 一天运行两次
-    rule.hour = hours
-    schedule.scheduleJob(rule, function() {
+    var times = [1, 16, 26, 36, 46, 56];
+    rule.minute = times;
+    // var hours = [5, 17] // 一天运行两次
+    // rule.hour = hours
+    schedule.scheduleJob(rule, function () {
       // console.log(promiseArr.length);
       // 所有数据源拿到之后更新电影表
       Promise.all(promiseArr)
         .then(result => {
-          console.log('完成')
+          console.log('采集完成')
           for (let i = 0; i < result.length; i++) {
             movieList = movieList.concat(result[i])
           }

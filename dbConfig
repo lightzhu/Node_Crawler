@@ -1,3 +1,0 @@
-const MAINDB =
-  'mongodb://tfboy:123456zgl@ds147872.mlab.com:47872/tfboy?authSource=tfboy';
-module.exports = { MAINDB };

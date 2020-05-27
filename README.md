@@ -1,6 +1,6 @@
-# NodeAPI
+# NodeCrawler
 
-Node.js 项目，管理一些接口,并将代码发布到托管云平台
+Node.js 项目，管理一些爬虫小程序
 
 # 1、git clone
 

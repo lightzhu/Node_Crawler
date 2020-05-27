@@ -6,7 +6,6 @@ let Movie_Schema = new Schema(
     title: String,
     id: Number,
     dist: String,
-    content: String,
     category: String,
     type: String,
     date: Date

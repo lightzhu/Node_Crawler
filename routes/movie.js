@@ -1,20 +1,25 @@
 const Router = require('koa-router')
 const router = new Router()
-const movieTask = require('../task/movieTask.js')
-function update() {
-  return new Promise(function (reslove, reject) {
-    setTimeout(() => {
-      movieTask.run()
-      reslove()
-    }, 100)
-  })
-}
+const sleep = require('sleep');
+const { dytt8Task, btbtdyTask } = require('../task/movie/index.js')
+// function update() {
+//   return new Promise(function (reslove, reject) {
+//     btbtdy.run().then((data) => {
+//       reslove(data)
+//     }).catch(error => {
+//       reject(error)
+//     })
+//   })
+// }
 //更新电影列表
 router.get('/update_movies', async ctx => {
-  await update()
+  let data1 = await dytt8Task.run();
+  sleep.sleep(3)
+  let data2 = await btbtdyTask.run();
   ctx.body = {
     code: 200,
-    msg: '成功'
+    msg: '成功',
+    data: data1 + data2
   }
 })
 module.exports = router

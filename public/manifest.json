@@ -1,6 +1,6 @@
 {
-  "short_name": "聚合影视",
-  "name": "Create React App Sample",
+  "short_name": "Node 爬虫",
+  "name": "Node 爬虫 App Sample",
   "icons": [
     {
       "src": "favicon.ico",

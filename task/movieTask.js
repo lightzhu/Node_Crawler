@@ -134,20 +134,20 @@ const dytt8fn = function (str, item) {
 }
 const movieSrc = [
   {
-    dist: 'http://www.btbtdy.la/btfl/dy1.html',
-    host: 'http://www.btbtdy.la',
-    type: 'target',
-    charset: 'UTF-8',
-    category: '1',
-    deal: btbtdyfn
-  },
-  {
     dist: 'https://www.dytt8.net/html/gndy/dyzz/index.html',
     host: 'https://www.dytt8.net',
     type: 'target',
     charset: 'gb2312',
     category: '2',
     deal: dytt8fn
+  },
+  {
+    dist: 'http://www.btbtdy.la/btfl/dy1.html',
+    host: 'http://www.btbtdy.la',
+    type: 'target',
+    charset: 'UTF-8',
+    category: '1',
+    deal: btbtdyfn
   },
   {
     dist: 'http://www.2btjia.com',// http://415.net
@@ -219,6 +219,10 @@ function updateMoviesList(data) {
                   .text()
             }
           })
+          console.log($('.post_td .message')
+            .find('img')
+            .eq(0)
+            .attr('src'))
           let movie = new MovieDetail({
             title: item.title,
             id: item.id,
@@ -288,16 +292,18 @@ function updateMoviesList(data) {
             console.log(err)
           } else {
             let $ = cheerio.load(res.body.toString())
-            request(`http://www.btbtdy.me/vidlist/${item.id}.html`, function (
+            request(`${item.dist}`, function (
               err,
               res2
             ) {
               if (err) {
               } else {
                 let $2 = cheerio.load(res2.body.toString())
-                let btUrl = $2('.p_list_02 a.d1')
-                  .eq(0)
-                  .attr('href')
+                let btUrl = $2('.p_list_02 li')
+                  .eq(0).text()
+                // .find('a').eq(0)
+                // .attr('href')
+                // console.log(btUrl)
                 let $contentp = $('.play .vod')
                 let content = $contentp.find('.vod_intro .c05').text()
                 let movie = new MovieDetail({
@@ -324,7 +330,7 @@ function updateMoviesList(data) {
           if (err) {
             console.log(err)
           } else {
-            console.log(res)
+            // console.log(res)
             let $ = cheerio.load(iconv.decode(res.body, 'gb2312'))
             // let $ = cheerio.load(res.body.toString());
             let $content = $('#introduce-content')
@@ -373,64 +379,51 @@ function updateMoviesList(data) {
 
 module.exports = {
   run: function () {
-    var rule = new schedule.RecurrenceRule()
-    // 执行的时间间隔
-    // var times = [1, 16, 26, 36, 46, 56];
-    // rule.minute = times;
-    // var hours = [0, 17] // 一天运行两次
-    // rule.hour = hours
-    // 每小时30分钟执行
-    // rule.minute = 30;
-    rule.minute = [0, 20, 40];
-    // rule.second = 0;
-    schedule.scheduleJob(rule, function () {
-      // console.log(promiseArr.length);
-      // 所有数据源拿到之后更新电影表
-      let movieList = [];
-      Promise.all(promiseArr)
-        .then(result => {
-          console.log('采集完成')
-          for (let i = 0; i < result.length; i++) {
-            movieList = movieList.concat(result[i])
-          }
-          let movies = []
-          // 去除重名
-
-          movieList.forEach((item) => {
-            if (movies.length == 0) {
-              movies.push(item)
-            } else {
-              let had = false;
-              for (let j = 0; j < movies.length; j++) {
-                let mo = movies[j]
-                if (item.title == mo.title) {
-                  had = true;
-                  break;
-                }
-              }
-              if (!had) {
-                movies.push(item)
+    // 所有数据源拿到之后更新电影表
+    let movieList = [];
+    Promise.all(promiseArr)
+      .then(result => {
+        console.log('采集完成')
+        for (let i = 0; i < result.length; i++) {
+          movieList = movieList.concat(result[i])
+        }
+        let movies = []
+        // 去除重名
+        movieList.forEach((item) => {
+          if (movies.length == 0) {
+            movies.push(item)
+          } else {
+            let had = false;
+            for (let j = 0; j < movies.length; j++) {
+              let mo = movies[j]
+              if (item.title == mo.title) {
+                had = true;
+                break;
               }
             }
-          })
-          console.log(movies.length)
-          Movie.deleteMany({}).then(() => {
-            Movie.insertMany(movies, (err, res) => {
-              if (err) {
-                console.log(err)
-              } else {
-                // console.log(res);
-                newMovies = res
-                MovieDetail.deleteMany({}).then(() => {
-                  updateMoviesList(res)
-                })
-              }
-            })
-          })
+            if (!had) {
+              movies.push(item)
+            }
+          }
         })
-        .catch(error => {
-          console.log(error)
-        })
-    })
+        console.log(movies)
+        // Movie.deleteMany({}).then(() => {
+        //   Movie.insertMany(movies, (err, res) => {
+        //     if (err) {
+        //       console.log(err)
+        //     } else {
+        //       // console.log(res);
+        //       // newMovies = res
+        //       // updateMoviesList(res)
+        //       MovieDetail.deleteMany({}).then(() => {
+        //         updateMoviesList(res)
+        //       })
+        //     }
+        //   })
+        // })
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 }

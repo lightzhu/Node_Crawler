@@ -120,11 +120,13 @@ module.exports = {
     let movieList = [];
     let newMovies = []
     return new Promise(function (reslove, reject) {
+      console.log(promiseArr.length)
       Promise.all(promiseArr)
         .then(result => {
           for (let i = 0; i < result.length; i++) {
             movieList = movieList.concat(result[i])
           }
+          console.log(movieList)
           let titles = []
           Movie.find({}, { title: 1 }, (err, docs) => {
             if (err) {
@@ -139,22 +141,23 @@ module.exports = {
                 }
               })
               console.log(newMovies.length)
-              if (newMovies.length) {
-                Movie.insertMany(newMovies, (err, docs) => {
-                  if (err) {
-                    reject(err)
-                  } else {
-                    try {
-                      // updateMoviesList(docs)
-                      reslove(docs.length)
-                    } catch (error) {
-                      reject(error)
-                    }
-                  }
-                })
-              } else {
-                reslove(0)
-              }
+              reslove(newMovies.length)
+              // if (newMovies.length) {
+              //   Movie.insertMany(newMovies, (err, docs) => {
+              //     if (err) {
+              //       reject(err)
+              //     } else {
+              //       try {
+              //         // updateMoviesList(docs)
+              //         reslove(docs.length)
+              //       } catch (error) {
+              //         reject(error)
+              //       }
+              //     }
+              //   })
+              // } else {
+              //   reslove(0)
+              // }
             }
           })
         })

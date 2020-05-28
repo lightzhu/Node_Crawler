@@ -12,7 +12,7 @@ if (process.env.MAINDB) {
   MAINDB = process.env.MAINDB
 } else {
   const DB = require('./dbConfig')
-  MAINDB = DB.env.MAINDB
+  MAINDB = DB.MAINDB
 }
 console.log(MAINDB)
 const mongoose = require('mongoose')

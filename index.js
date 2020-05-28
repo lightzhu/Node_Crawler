@@ -6,11 +6,15 @@ const serve = require('koa-static')
 const bodyParser = require('koa-bodyparser')
 const registerRouter = require('./routes/index.js')
 
-let { MAINDB } = require('./dbConfig')
+let MAINDB = ''
 // 将数据库链接信息设置到环境变量中去,防止暴露隐私信息
 if (process.env.MAINDB) {
   MAINDB = process.env.MAINDB
+} else {
+  const DB = require('./dbConfig')
+  MAINDB = DB.env.MAINDB
 }
+console.log(MAINDB)
 const mongoose = require('mongoose')
 
 // 连接数据库

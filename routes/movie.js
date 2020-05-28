@@ -2,24 +2,30 @@ const Router = require('koa-router')
 const router = new Router()
 const sleep = require('sleep');
 const { dytt8Task, btbtdyTask } = require('../task/movie/index.js')
-// function update() {
-//   return new Promise(function (reslove, reject) {
-//     btbtdy.run().then((data) => {
-//       reslove(data)
-//     }).catch(error => {
-//       reject(error)
-//     })
-//   })
-// }
+function update() {
+  return new Promise(function (reslove, reject) {
+    dytt8Task.run().then((data) => {
+      sleep.sleep(3)
+      btbtdyTask.run().then((data1) => {
+        reslove(data + data1)
+      }).catch(error => {
+        reject(error)
+      })
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
 //更新电影列表
 router.get('/update_movies', async ctx => {
-  let data1 = await dytt8Task.run();
-  sleep.sleep(3)
-  let data2 = await btbtdyTask.run();
+  // let data1 = await dytt8Task.run();
+  // sleep.sleep(3)
+  // let data2 = await btbtdyTask.run();
+  let len = await update()
   ctx.body = {
     code: 200,
     msg: '成功',
-    data: data1 + data2
+    data: len
   }
 })
 module.exports = router

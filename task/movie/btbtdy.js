@@ -60,40 +60,45 @@ async function updateMoviesList(data) {
       '--disable-setuid-sandbox'
     ]
   })
+  const page = await browser.newPage()
   console.log('浏览器启动')
   let movieDetailArr = []
   let i = 0
   while (i < data.length) {
     let item = data[i]
-    const page = await browser.newPage()
-    await page.goto(item.dist)
-    await page.waitFor(1000);
-    let btUrl = ''
-    let content = ''
-    let postUrl = ''
     try {
-      btUrl = await page.$eval('#video-down p:nth-of-type(2)', el => {
-        return el.innerHTML
-      })
-      content = await page.$eval('.side', el => el.innerText)
-      postUrl = await page.$eval('.side>a img', el => el.getAttribute('src'))
+      await page.goto(item.dist)
+      await page.waitFor(1000);
+      let btUrl = ''
+      let content = ''
+      let postUrl = ''
+      try {
+        btUrl = await page.$eval('#video-down p:nth-of-type(2)', el => {
+          return el.innerHTML
+        })
+        content = await page.$eval('.side', el => el.innerText)
+        postUrl = await page.$eval('.side>a img', el => el.getAttribute('src'))
+      } catch (error) {
+        console.log(error)
+      }
+      if (btUrl !== '') {
+        movieDetailArr.push(new MovieDetail({
+          title: item.title,
+          id: item.id,
+          type: item.type,
+          postUrl,
+          content,
+          btUrl,
+          date: moment(new Date()).format('YYYY-MM-DD HH:mm')
+        }))
+      }
+      console.log(`采集第${i}个页面成功`)
+      sleep.sleep(1)
+      i++
     } catch (error) {
+      continue
       console.log(error)
     }
-    if (btUrl !== '') {
-      movieDetailArr.push(new MovieDetail({
-        title: item.title,
-        id: item.id,
-        type: item.type,
-        postUrl,
-        content,
-        btUrl,
-        date: moment(new Date()).format('YYYY-MM-DD HH:mm')
-      }))
-    }
-    console.log(`采集第${i}个页面成功`)
-    sleep.sleep(1)
-    i++
   }
   await browser.close()
   console.log(`浏览器关闭`)

@@ -60,7 +60,7 @@ async function updateMoviesList(data) {
       '--disable-setuid-sandbox'
     ]
   })
-  console.log('浏览器启动成功')
+  console.log('浏览器启动')
   let movieDetailArr = []
   let i = 0
   while (i < data.length) {
@@ -96,6 +96,7 @@ async function updateMoviesList(data) {
     i++
   }
   await browser.close()
+  console.log(`浏览器关闭`)
   MovieDetail.insertMany(movieDetailArr, function (err, r) {
     if (err) {
       console.log(err)

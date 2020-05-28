@@ -34,6 +34,26 @@ Node.js 项目，管理一些爬虫小程序
 - 手动将这个源地址关联到项目上去 git remote add [源名称][源地址]
 - 将项目推送到 heroku 源中，项目会自动部署
 
+# 解决 puppeteer 库无法在 heroku 中正常启动的问题
+
+- https://github.com/jontewks/puppeteer-heroku-buildpack
+
+```Bash
+ $ heroku buildpacks:add jontewks/puppeteer
+```
+
+- Or use the source code in this repository:
+
+```Bash
+  $ heroku buildpacks:add https://github.com/jontewks/puppeteer-heroku-buildpack.git
+```
+
+```javascript
+const browser = await puppeteer.launch({
+  args: ['--no-sandbox', '--disable-setuid-sandbox'],
+})
+```
+
 # 将项目部署到 gearhost（免费的小程序托管云平台）
 
 - gearhost 里面创建一个项目

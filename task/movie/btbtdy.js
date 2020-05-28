@@ -52,51 +52,51 @@ function getPageDetail(item) {
   })
 }
 
-// async function updateMoviesList(data) {
-//   // 根据最新的电影表获取电影信息及下载链接
-//   const browser = await puppeteer.launch()
-//   console.log('浏览器启动成功')
-//   let movieDetailArr = []
-//   let i = 0
-//   while (i < data.length) {
-//     let item = data[i]
-//     const page = await browser.newPage()
-//     await page.goto(item.dist)
-//     await page.waitFor(1000);
-//     let btUrl = ''
-//     let content = ''
-//     let postUrl = ''
-//     try {
-//       btUrl = await page.$eval('#video-down p:nth-of-type(2)', el => {
-//         return el.innerHTML
-//       })
-//       content = await page.$eval('.side', el => el.innerText)
-//       postUrl = await page.$eval('.side>a img', el => el.getAttribute('src'))
-//     } catch (error) {
-//       console.log(error)
-//     }
-//     if (btUrl !== '') {
-//       movieDetailArr.push(new MovieDetail({
-//         title: item.title,
-//         id: item.id,
-//         type: item.type,
-//         postUrl,
-//         content,
-//         btUrl,
-//         date: moment(new Date()).format('YYYY-MM-DD HH:mm')
-//       }))
-//     }
-//     console.log('采集第一个页面成功')
-//     sleep.sleep(1)
-//     i++
-//   }
-//   await browser.close()
-//   MovieDetail.insertMany(movieDetailArr, function (err, r) {
-//     if (err) {
-//       console.log(err)
-//     }
-//   });
-// }
+async function updateMoviesList(data) {
+  // 根据最新的电影表获取电影信息及下载链接
+  const browser = await puppeteer.launch()
+  console.log('浏览器启动成功')
+  let movieDetailArr = []
+  let i = 0
+  while (i < data.length) {
+    let item = data[i]
+    const page = await browser.newPage()
+    await page.goto(item.dist)
+    await page.waitFor(1000);
+    let btUrl = ''
+    let content = ''
+    let postUrl = ''
+    try {
+      btUrl = await page.$eval('#video-down p:nth-of-type(2)', el => {
+        return el.innerHTML
+      })
+      content = await page.$eval('.side', el => el.innerText)
+      postUrl = await page.$eval('.side>a img', el => el.getAttribute('src'))
+    } catch (error) {
+      console.log(error)
+    }
+    if (btUrl !== '') {
+      movieDetailArr.push(new MovieDetail({
+        title: item.title,
+        id: item.id,
+        type: item.type,
+        postUrl,
+        content,
+        btUrl,
+        date: moment(new Date()).format('YYYY-MM-DD HH:mm')
+      }))
+    }
+    console.log(`采集第${i}个页面成功`)
+    sleep.sleep(1)
+    i++
+  }
+  await browser.close()
+  MovieDetail.insertMany(movieDetailArr, function (err, r) {
+    if (err) {
+      console.log(err)
+    }
+  });
+}
 
 module.exports = {
   run: function () {
@@ -105,7 +105,6 @@ module.exports = {
     return new Promise(function (reslove, reject) {
       getPageDetail(movieSrc)
         .then(result => {
-          console.log(result)
           let titles = []
           Movie.find({}, { title: 1 }, (err, docs) => {
             if (err) {
@@ -120,23 +119,22 @@ module.exports = {
                 }
               })
               console.log(newMovies.length)
-              reslove(newMovies.length)
-              // if (newMovies.length) {
-              //   Movie.insertMany(newMovies, (err, docs) => {
-              //     if (err) {
-              //       reject(err)
-              //     } else {
-              //       try {
-              //         // updateMoviesList(docs)
-              //         reslove(docs.length)
-              //       } catch (error) {
-              //         reject(error)
-              //       }
-              //     }
-              //   })
-              // } else {
-              //   reslove(0)
-              // }
+              if (newMovies.length) {
+                Movie.insertMany(newMovies, (err, docs) => {
+                  if (err) {
+                    reject(err)
+                  } else {
+                    try {
+                      updateMoviesList(docs)
+                      reslove(docs.length)
+                    } catch (error) {
+                      reject(error)
+                    }
+                  }
+                })
+              } else {
+                reslove(0)
+              }
             }
           })
         })

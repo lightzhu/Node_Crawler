@@ -136,7 +136,6 @@ function updateMoviesList(data) {
         movieDetail.save((err, res) => {
           if (err) {
             console.log(err)
-          } else {
           }
         })
       }
@@ -152,7 +151,6 @@ module.exports = {
     return new Promise(function (reslove, reject) {
       Promise.all(promiseArr)
         .then(result => {
-          console.log('采集完成')
           for (let i = 0; i < result.length; i++) {
             movieList = movieList.concat(result[i])
           }

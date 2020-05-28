@@ -54,7 +54,12 @@ function getPageDetail(item) {
 
 async function updateMoviesList(data) {
   // 根据最新的电影表获取电影信息及下载链接
-  const browser = await puppeteer.launch()
+  const browser = await puppeteer.launch({
+    'args': [
+      '--no-sandbox',
+      '--disable-setuid-sandbox'
+    ]
+  })
   console.log('浏览器启动成功')
   let movieDetailArr = []
   let i = 0

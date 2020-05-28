@@ -145,7 +145,7 @@ module.exports = {
                     reject(err)
                   } else {
                     try {
-                      updateMoviesList(docs)
+                      // updateMoviesList(docs)
                       reslove(docs.length)
                     } catch (error) {
                       reject(error)

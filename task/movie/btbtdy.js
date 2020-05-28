@@ -71,6 +71,7 @@ movieSrc.forEach((item, key) => {
 async function updateMoviesList(data) {
   // 根据最新的电影表获取电影信息及下载链接
   const browser = await puppeteer.launch()
+  console.log('浏览器启动成功')
   let movieDetailArr = []
   let i = 0
   while (i < data.length) {
@@ -101,6 +102,7 @@ async function updateMoviesList(data) {
         date: moment(new Date()).format('YYYY-MM-DD HH:mm')
       }))
     }
+    console.log('采集第一个页面成功')
     sleep.sleep(1)
     i++
   }
@@ -136,14 +138,18 @@ module.exports = {
                   newMovies.push(item)
                 }
               })
-              // console.log(newMovies)
+              console.log(newMovies.length)
               if (newMovies.length) {
                 Movie.insertMany(newMovies, (err, docs) => {
                   if (err) {
                     reject(err)
                   } else {
-                    updateMoviesList(docs)
-                    reslove(docs.length)
+                    try {
+                      updateMoviesList(docs)
+                      reslove(docs.length)
+                    } catch (error) {
+                      reject(error)
+                    }
                   }
                 })
               } else {

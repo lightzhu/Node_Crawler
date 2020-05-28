@@ -28,8 +28,8 @@ const btbtdyfn = function (str, item) {
   return list
 }
 const movieSrc = {
-  dist: 'http://www.btbtdy.la/btfl/dy1.html',
-  host: 'http://www.btbtdy.la',
+  dist: 'http://www.btbtdy1.com/btfl/dy1.html',
+  host: 'http://www.btbtdy1.com',
   type: 'target',
   charset: 'UTF-8',
   category: '1',

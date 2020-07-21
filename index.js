@@ -53,8 +53,7 @@ app.use(bodyParser())
 // 加载路由中间件
 app.use(registerRouter())
 
-// 在端口监听:
-console.log()
+// 在端口监听
 const port = process.env.PORT || '8080'
 app.listen(port)
 console.log(`app started at port ${port}`)

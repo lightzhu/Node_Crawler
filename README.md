@@ -12,9 +12,9 @@ Node.js 项目，管理一些爬虫小程序
 
 # 效果
 
-![](https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.6/image/github/table1.png)
+![](https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.6.5/image/github/table1.png)
 
-![](https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.6/image/github/table2.png)
+![](https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.6.5/image/github/table2.png)
 
 # 将项目部署到 openshift 上面
 

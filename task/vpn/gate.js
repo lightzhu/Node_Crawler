@@ -42,7 +42,7 @@ const dealGate = function (str) {
   return list
 }
 
-async function getVpnGateList(data) {
+async function updateVpnGateList() {
   // 获取vpngate 列表
   const browser = await puppeteer.launch({
     'args': [
@@ -90,17 +90,19 @@ async function getVpnGateList(data) {
           let ping = $tag.eq(3).find('b').eq(1).text()
           let type = $tag.eq(5).find('b').eq(0).text()
           // console.log(band_width, ping, type)
-          list.push({
-            country,
-            ddns,
-            ip,
-            consumer,
-            valid_time,
-            band_width,
-            ping,
-            type,
-            date: moment(new Date()).format('YYYY-MM-DD HH:mm')
-          })
+          list.push(
+            new Vpngate({
+              country,
+              ddns,
+              ip,
+              consumer,
+              valid_time,
+              band_width,
+              ping,
+              type,
+              date: moment(new Date()).format('YYYY-MM-DD HH:mm')
+            })
+          )
         }
       }
     }
@@ -108,51 +110,12 @@ async function getVpnGateList(data) {
     console.log(error)
   }
   await browser.close()
-  console.log(`浏览器关闭`)
+  Vpngate.insertMany(list, function (err, r) {
+    if (err) {
+      console.log(err)
+    }
+  });
   return list
 }
-function getVpnGateList2(data) {
-  // 获取vpngate 列表
-  let options = {
-    method: 'get',
-    url: 'https://www.vpngate.net/cn/'
-  }
-  return new Promise((reslove, reject) => {
-    try {
-      request(options, function (err, res) {
-        if (err) {
-          reject(err)
-        } else {
-          let data = dealGate(res.body.toString())
-          reslove(data)
-          // let $contentp = $('#Zoom>span')
-          //   .eq(0)
-          //   .find('p')
-          //   .eq(0)
-          // let $table = $('#Zoom table')
-          // let movieDetail = new MovieDetail({
-          //   title: item.title,
-          //   id: item.id,
-          //   postUrl: $contentp
-          //     .find('img')
-          //     .first()
-          //     .attr('src'),
-          //   content: $contentp.text(),
-          //   type: item.type,
-          //   btUrl: $table
-          //     .find('tr')
-          //     .first()
-          //     .find('a')
-          //     .text(),
-          //   date: moment(new Date()).format('YYYY-MM-DD HH:mm')
-          // })
-          // console.log($)
-        }
-      })
-    } catch (error) {
-      reject(error)
-    }
-  })
-}
 
-module.exports = getVpnGateList
+module.exports = updateVpnGateList

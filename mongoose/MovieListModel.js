@@ -9,7 +9,7 @@ let Movie_List_Schema = new Schema(
     postUrl: String,
     content: String,
     type: String,
-    date: Date
+    date: String
   },
   {
     versionKey: false

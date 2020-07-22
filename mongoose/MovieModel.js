@@ -8,7 +8,7 @@ let Movie_Schema = new Schema(
     dist: String,
     category: String,
     type: String,
-    date: Date
+    date: String
   },
   {
     versionKey: false

@@ -6,12 +6,12 @@ let Gate_Schema = new Schema(
     country: String,
     ddns: String,
     ip: String,
-    consumer: Number,
+    consumer: String,
     valid_time: String,
     band_width: String,
     ping: String,
     type: String,
-    date: Date
+    date: String
   },
   {
     versionKey: false

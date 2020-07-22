@@ -10,6 +10,12 @@ Node.js 项目，管理一些爬虫小程序
 
 # 4、npm start
 
+# 效果
+
+![](https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.6/image/github/table1.png)
+
+![](https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.6/image/github/table2.png)
+
 # 将项目部署到 openshift 上面
 
 - 简单的部署直接浏览 catalog 选择相应的语言，next 的之后填写应用名称和项目地址就可以了

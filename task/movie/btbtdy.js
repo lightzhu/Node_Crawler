@@ -28,8 +28,8 @@ const btbtdyfn = function (str, item) {
   return list
 }
 const movieSrc = {
-  dist: 'http://www.btbtdy1.com/btfl/dy1.html',
-  host: 'http://www.btbtdy1.com',
+  dist: 'http://www.btbtdy2.com/btfl/dy1.html',
+  host: 'http://www.btbtdy2.com',
   type: 'target',
   charset: 'UTF-8',
   category: '1',
@@ -117,7 +117,7 @@ module.exports = {
       getPageDetail(movieSrc)
         .then(result => {
           let titles = []
-          Movie.find({}, { title: 1 }, (err, docs) => {
+          Movie.find({}, { title: 1 }, { sort: { date: 1 }, limit: 10000 }, (err, docs) => {
             if (err) {
               reject(err)
             } else {
@@ -129,7 +129,7 @@ module.exports = {
                   newMovies.push(item)
                 }
               })
-              console.log(newMovies.length)
+              console.log('btbt2新电影个数:' + newMovies.length)
               if (newMovies.length) {
                 Movie.insertMany(newMovies, (err, docs) => {
                   if (err) {

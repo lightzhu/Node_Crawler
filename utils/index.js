@@ -4,7 +4,7 @@ function dingTalkSign(timestamp, secret) {
   // const hash = crypto.createHmac('sha256', timestamp + "\n" + secret).digest('base64')
   const hmac = crypto.createHmac('sha256', secret)
   const hash2 = hmac.update(timestamp + '\n' + secret).digest('base64')
-  console.log(hash2)
+  // console.log(hash2)
   // console.log(hash)
   return hash2
 }

@@ -43,24 +43,24 @@ const dytt8fn = function (str, item) {
 }
 const movieSrc = [
   {
-    dist: 'https://www.dytt8.net/html/gndy/china/index.html',
-    host: 'https://www.dytt8.net',
+    dist: 'https://www.dygod.net/html/gndy/china/index.html',
+    host: 'https://www.dygod.net',
     type: 'target',
     charset: 'gb2312',
     category: '2',
     deal: dytt8fn
   },
   {
-    dist: 'https://www.dytt8.net/html/gndy/rihan/index.html',
-    host: 'https://www.dytt8.net',
+    dist: 'https://www.dygod.net/html/gndy/rihan/index.html',
+    host: 'https://www.dygod.net',
     type: 'target',
     charset: 'gb2312',
     category: '2',
     deal: dytt8fn
   },
   {
-    dist: 'https://www.dytt8.net/html/gndy/oumei/index.html',
-    host: 'https://www.dytt8.net',
+    dist: 'https://www.dygod.net/html/gndy/oumei/index.html',
+    host: 'https://www.dygod.net',
     type: 'target',
     charset: 'gb2312',
     category: '2',
@@ -83,18 +83,22 @@ movieSrc.forEach((item, key) => {
   }
   promiseArr.push(
     new Promise(function (resolve, reject) {
-      request(options, function (err, res) {
-        if (err) {
-          console.log(err)
-          reject(err)
-        } else {
-          if (item.charset === 'gb2312') {
-            resolve(item.deal(iconv.decode(res.body, 'gb2312'), item))
+      try {
+        request(options, function (err, res) {
+          if (err) {
+            console.log(err)
+            reject(err)
           } else {
-            resolve(item.deal(res.body.toString(), item))
+            if (item.charset === 'gb2312') {
+              resolve(item.deal(iconv.decode(res.body, 'gb2312'), item))
+            } else {
+              resolve(item.deal(res.body.toString(), item))
+            }
           }
-        }
-      })
+        })
+      } catch (error) {
+        reject(error)
+      }
     })
   )
 })

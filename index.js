@@ -14,7 +14,6 @@ if (process.env.MAINDB) {
   const DB = require('./dbConfig')
   MAINDB = DB.MAINDB
 }
-console.log(MAINDB)
 const mongoose = require('mongoose')
 
 // 连接数据库

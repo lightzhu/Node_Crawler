@@ -116,11 +116,11 @@ function updateMoviesList(data) {
         console.log(err)
       } else {
         let $ = cheerio.load(iconv.decode(res.body, 'gb2312'))
-        let $contentp = $('#Zoom>span')
-          .eq(0)
-          .find('p')
-          .eq(0)
+        let $contentp = $('#Zoom')
         let $table = $('#Zoom table')
+        let start = $contentp.text().indexOf('◎简')
+        let end = $contentp.text().indexOf('◎影片截图')
+        console.log()
         let movieDetail = new MovieDetail({
           title: item.title,
           id: item.id,
@@ -128,7 +128,7 @@ function updateMoviesList(data) {
             .find('img')
             .first()
             .attr('src'),
-          content: $contentp.text(),
+          content: $contentp.text().substring(start, end),
           type: item.type,
           btUrl: $table
             .find('tr')

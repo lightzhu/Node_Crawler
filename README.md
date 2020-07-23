@@ -16,6 +16,8 @@ Node.js 项目，管理一些爬虫小程序
 
 ![](https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.6.5/image/github/table2.png)
 
+# 免费 VPN L2TP/IPsec 方式 体验钉钉群号 31971273，每日定时更新科学上网主机
+
 ![dingtalk.png](https://i.loli.net/2020/07/23/EP2M4ozLRpAIOae.png)
 
 # 将项目部署到 openshift 上面

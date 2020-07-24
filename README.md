@@ -20,6 +20,11 @@ Node.js 项目，管理一些爬虫小程序
 
 ![dingtalk.png](https://i.loli.net/2020/07/23/EP2M4ozLRpAIOae.png)
 
+# 科学上网配置教程
+
+- [window 和 android 配置方式](https://www.2048888.xyz/2020/07/24/Node/vpn2/#more)
+- [mac 和 ios 配置方式](https://www.2048888.xyz/2020/07/24/Node/vpn_L2TP/#more)
+
 # 将项目部署到 openshift 上面
 
 - 简单的部署直接浏览 catalog 选择相应的语言，next 的之后填写应用名称和项目地址就可以了

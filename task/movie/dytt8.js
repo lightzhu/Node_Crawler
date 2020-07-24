@@ -178,7 +178,7 @@ module.exports = {
             }
           })
           let titles = []
-          Movie.find({}, { title: 1 }, { sort: { date: 1 }, limit: 10000 }, (err, docs) => {
+          Movie.find({}, { title: 1 }, { limit: 10000 }, (err, docs) => {
             if (err) {
               reject(err)
             } else {

@@ -67,11 +67,18 @@ async function updateVpnGateList() {
       page.waitForNavigation({ timeout: 90000, waitUntil: 'domcontentloaded' }), // The promise resolves after navigation has finished
       page.click(Button3), // 点击该链接将间接导致导航(跳转)
     ])
+    // 获取当前库里的ip列表
+    let hadIPs = await Vpngate.find({}, { ip: 1 }, { limit: 2000 })
+    let hadIP = new Array()
+    if (hadIPs.length) {
+      hadIPs.forEach((item) => {
+        hadIP.push(item.ip)
+      })
+    }
     let $mainTable = await page.$$('#vpngate_inner_contents_td>#vg_hosts_table_id tr')
     console.log($mainTable.length)
     for (let i = 0; i < $mainTable.length; i++) {
       let className = await page.$eval(`#vpngate_inner_contents_td >#vg_hosts_table_id tr:nth-of-type(${i + 1}) td:first-child`, el => el.getAttribute('class'))
-      // console.log(className)
       if (className.indexOf('vg_table_row') != -1) {
         let trHtml = await page.$eval(`#vpngate_inner_contents_td >#vg_hosts_table_id tr:nth-of-type(${i + 1})`, el => el.outerHTML)
         // console.log(trHtml)
@@ -89,20 +96,22 @@ async function updateVpnGateList() {
           let band_width = $tag.eq(3).find('b').eq(0).text()
           let ping = $tag.eq(3).find('b').eq(1).text()
           let type = $tag.eq(5).find('b').eq(0).text()
-          // console.log(band_width, ping, type)
-          list.push(
-            new Vpngate({
-              country,
-              ddns,
-              ip,
-              consumer,
-              valid_time,
-              band_width,
-              ping,
-              type,
-              date: moment(new Date()).format('YYYY-MM-DD HH:mm')
-            })
-          )
+          // 去重
+          if (hadIP.indexOf(ip) == -1) {
+            list.push(
+              new Vpngate({
+                country,
+                ddns,
+                ip,
+                consumer,
+                valid_time,
+                band_width,
+                ping,
+                type,
+                date: moment(new Date()).format('YYYY-MM-DD HH:mm')
+              })
+            )
+          }
         }
       }
     }
@@ -110,11 +119,13 @@ async function updateVpnGateList() {
     console.log(error)
   }
   await browser.close()
-  Vpngate.insertMany(list, function (err, r) {
-    if (err) {
-      console.log(err)
-    }
-  });
+  if (list.length > 0) {
+    Vpngate.insertMany(list, function (err, r) {
+      if (err) {
+        console.log(err)
+      }
+    })
+  }
   return list
 }
 

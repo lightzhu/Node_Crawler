@@ -50,7 +50,7 @@ router.get('/update_vpngates', async ctx => {
   let list = await gateTask()
   let content = 'T^T L2TP方式最新VPN列表=>\n\n'
   list.forEach((item) => {
-    content += `国家:${item.country}带宽:${item.band_width} 时长:${item.valid_time} IP:${item.ip}\n\n`
+    content += `国家:${item.country}带宽:${item.band_width} 时长:${item.valid_time} IP:${item.ip}\n`
   })
   options.json.text.content = content
   let data = await sendMsgToDingtalk(options)

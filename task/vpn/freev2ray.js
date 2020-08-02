@@ -76,6 +76,7 @@ class Freev2ray {
         console.log(error)
       }
     }
+    await browser.close()
     let feed = await this.insetToTable()
     return feed
     // return new Promise(function (reslove, reject) {

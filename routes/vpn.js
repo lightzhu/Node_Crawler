@@ -104,13 +104,14 @@ router.get('/update_freev2ray', async ctx => {
   let freev2ray = new Freev2ray(['https://api.free-ssr.xyz/ssr', 'https://api.free-ssr.xyz/v2ray'])
   let list = await freev2ray.updateV2ray()
   let content = 'T^T 最新免费ssr & vmess列表=>\n\n'
+  let data = '暂无更新'
   if (list.length) {
     list.forEach((item) => {
       content += `地区:${item.country} 更新时间:${item.update_time}\n\n ${item.url}\n`
     })
+    options.json.text.content = content
+    data = await sendMsgToDingtalk(options)
   }
-  options.json.text.content = content
-  let data = await sendMsgToDingtalk(options)
   ctx.body = {
     code: 200,
     msg: '成功',

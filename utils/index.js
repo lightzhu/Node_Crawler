@@ -8,6 +8,10 @@ function dingTalkSign(timestamp, secret) {
   // console.log(hash)
   return hash2
 }
+function creatMd5String(content) {
+  return crypto.createHash('md5').update(content).digest('base64')
+}
 module.exports = {
-  dingTalkSign
+  dingTalkSign,
+  creatMd5String
 }

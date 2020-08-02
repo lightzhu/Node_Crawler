@@ -106,7 +106,7 @@ router.get('/update_freev2ray', async ctx => {
   let content = 'T^T 最新免费ssr & vmess列表=>\n\n'
   if (list.length) {
     list.forEach((item) => {
-      content += `地区:${item.country} 更新时间:${item.update_time}\n 地址:${item.url}`
+      content += `地区:${item.country} 更新时间:${item.update_time}\n\n ${item.url}`
     })
   }
   options.json.text.content = content

@@ -107,7 +107,7 @@ router.get('/update_freev2ray', async ctx => {
   let data = '暂无更新'
   if (list.length) {
     list.forEach((item) => {
-      content += `地区:${item.country} 更新时间:${item.update_time}\n\n ${item.url}\n`
+      content += `地区:${item.country} 更新时间:${item.update_time}\n ${item.url}\n`
     })
     options.json.text.content = content
     data = await sendMsgToDingtalk(options)

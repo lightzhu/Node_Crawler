@@ -24,7 +24,7 @@ Node.js 项目，管理一些爬虫小程序
 
 ![free-ss.png](https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.6.7/image/vpn/free-ss.png)
 
-![free-ssr.png](https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.6.7/image/vpn/free-ss.png)
+![free-ssr.png](https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.6.7/image/vpn/free-ssr.png)
 
 # 科学上网配置教程
 

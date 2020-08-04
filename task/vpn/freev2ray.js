@@ -37,13 +37,14 @@ class Freev2ray {
     this.list = this.list.filter((item) => {
       return !hadList.includes(item.md5)
     })
-    console.log(this.list.length)
+    // console.log(this.list.length)
     if (this.list.length) {
       return new Promise((reslove, reject) => {
         FreeSS.insertMany(this.list, (err) => {
           if (err) {
             reject(err)
           } else {
+            res = true
             reslove(this.list)
           }
         })

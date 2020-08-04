@@ -65,32 +65,19 @@ router.get('/update_vpngates', async ctx => {
   }
 })
 
-//更新shadowsocks列表
+//更新shadowsocks（来自telegram频道）列表
 router.get('/update_shadowsocks', async ctx => {
-  // let atMobiles = []
-  // let options = {
-  //   headers: {
-  //     "Content-Type": 'application/json;charset=utf-8'
-  //   },
-  //   json: {
-  //     "msgtype": "text",
-  //     "text": {
-  //       "content": 'T^T 测试'
-  //     },
-  //     "at": {
-  //       "atMobiles": atMobiles == null ? [] : atMobiles,
-  //       "isAtAll": false
-  //     }
-  //   }
-  // }
-  let shadowsocks = new Shadowsock('https://free-ss.site/')
+  let shadowsocks = new Shadowsock(['https://t.me/s/ssrlist', 'https://t.me/s/sslist', 'https://t.me/s/v2list']) //https://t.me/s/ssrlist  https://t.me/s/sslist https://t.me/s/v2list
   let list = await shadowsocks.updateShadowsock()
-  // let content = 'T^T L2TP方式最新VPN列表=>\n\n'
-  // list.forEach((item) => {
-  //   content += `国家:${item.country}带宽:${item.band_width} 时长:${item.valid_time} IP:${item.ip}\n`
-  // })
-  // options.json.text.content = content
-  // let data = await sendMsgToDingtalk(options)
+  let data = '暂无更新'
+  let content = 'T^T 最新免费节点列表=>\n\n'
+  if (list.length) {
+    list.forEach((item) => {
+      content += `${item.url}\n\n`
+    })
+    options.json.text.content = content
+    data = await sendMsgToDingtalk(options)
+  }
   ctx.body = {
     code: 200,
     msg: '成功',
@@ -99,15 +86,15 @@ router.get('/update_shadowsocks', async ctx => {
 })
 
 
-//更新shadowsocks列表
+//更新 https://free-ssr.xyz/ 网站列表
 router.get('/update_freev2ray', async ctx => {
   let freev2ray = new Freev2ray(['https://api.free-ssr.xyz/ssr', 'https://api.free-ssr.xyz/v2ray'])
   let list = await freev2ray.updateV2ray()
-  let content = 'T^T 最新免费ssr & vmess列表=>\n\n'
+  let content = 'T^T 最新免费节点列表=>\n\n'
   let data = '暂无更新'
   if (list.length) {
     list.forEach((item) => {
-      content += `地区:${item.country} 更新时间:${item.update_time}\n ${item.url}\n`
+      content += `地区:${item.country} 更新时间:${item.update_time}${item.url}\n\n`
     })
     options.json.text.content = content
     data = await sendMsgToDingtalk(options)

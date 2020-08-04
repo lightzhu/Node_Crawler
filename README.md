@@ -16,7 +16,7 @@ Node.js 项目，管理一些爬虫小程序
 
 ![](https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.6.5/image/github/table2.png)
 
-# 免费 VPN L2TP/IPsec 方式 体验钉钉群号 31971273，每日定时更新科学上网主机
+# 免费 VPN L2TP/IPsec 方式
 
 ![dingtalk.png](https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.6.7/image/vpn/free-vpn.png)
 
@@ -25,6 +25,10 @@ Node.js 项目，管理一些爬虫小程序
 ![free-ss.png](https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.6.7/image/vpn/free-ss.png)
 
 ![free-ssr.png](https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.6.7/image/vpn/free-ssr.png)
+
+# 交流学习钉钉群号： 31971273
+
+# 本项目仅供交流学习使用，请准守国家相关法律法规！更新的科学上网主机勿用于违法犯罪等活动！！违反者后果自负！！！
 
 # 科学上网配置教程
 

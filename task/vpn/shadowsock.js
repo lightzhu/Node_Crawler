@@ -5,20 +5,21 @@ const moment = require('moment')
 const { urlToplaintext, creatMd5String } = require('../../utils/index')
 
 class Shadowsock {
-  constructor(url) {
+  constructor(url, day) {
+    this.day = day
     this.dist = url
     this.monthList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     this.list = []
-    // let now = new Date()
+    console.log(this.day)
     // this.date = `${this.monthList[now.getMonth()]} ${now.getDate}`
   }
   dealShadowsock(str, type) {
     let isNew = false
     let $ = cheerio.load(str)
     let ndate = new Date()
-    let thisDay = `${this.monthList[ndate.getMonth() - 1]} 31` //${ndate.getDate()}
+    let thisDay = `${this.monthList[ndate.getMonth()]} ${ndate.getDate() - this.day == 0 ? ndate.getDate() : ndate.getDate() - this.day}` //${ndate.getDate()}
     let $mainWrap = $('.tgme_channel_history .tgme_widget_message_wrap')
-    // console.log($mainWrap.length)
+    console.log(thisDay)
     let allList = new Array()
     let sslist = []
     if ($mainWrap.length) {

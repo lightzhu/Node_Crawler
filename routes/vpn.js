@@ -67,7 +67,8 @@ router.get('/update_vpngates', async ctx => {
 
 //更新shadowsocks（来自telegram频道）列表
 router.get('/update_shadowsocks', async ctx => {
-  let shadowsocks = new Shadowsock(['https://t.me/s/ssrlist', 'https://t.me/s/sslist', 'https://t.me/s/v2list']) //https://t.me/s/ssrlist  https://t.me/s/sslist https://t.me/s/v2list
+  console.log(ctx.query.day)
+  let shadowsocks = new Shadowsock(['https://t.me/s/ssrlist', 'https://t.me/s/sslist', 'https://t.me/s/v2list'], ctx.query.day) //https://t.me/s/ssrlist  https://t.me/s/sslist https://t.me/s/v2list
   let list = await shadowsocks.updateShadowsock()
   let data = '暂无更新'
   let content = 'T^T 最新免费节点列表=>\n\n'

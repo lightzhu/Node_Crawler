@@ -55,7 +55,7 @@ function urlToplaintext(url) {
     encodeStr = url.slice(8, url.indexOf('?'))
     let decodeStr = new Buffer.from(encodeStr, 'base64').toString()
     let arr = decodeStr.split(/[:@]/)
-    obj.url = url
+    obj.url = url.replace(/[\u4e00-\u9fa5]|[\（\）\《\》\—\：\；\，\。\“\”\<\>\！]/g, '')
     obj.id = arr[1]
     // obj.name = arr[2]
     obj.name = `${arr[2]}:${arr[3]}`

@@ -3,7 +3,7 @@ const router = new Router()
 const { dingTalkSign } = require('../utils/index');
 const request = require('request')
 const moment = require('moment')
-const { gateTask, Shadowsock, Freev2ray } = require('../task/vpn/index.js')
+const { gateTask, Shadowsock, Freev2ray, GithubFree } = require('../task/vpn/index.js')
 // 钉钉群发消息URL 和 secret
 let webhook = ''
 let secret = ''
@@ -87,7 +87,7 @@ router.get('/update_shadowsocks', async ctx => {
 })
 
 
-//更新 https://free-ssr.xyz/ 网站列表
+//更新 https://free-ssr.xyz/ 网站列表  https://www.freefq.com/
 router.get('/update_freev2ray', async ctx => {
   let freev2ray = new Freev2ray(['https://api.free-ssr.xyz/ssr', 'https://api.free-ssr.xyz/v2ray'])
   let list = await freev2ray.updateV2ray()
@@ -96,6 +96,26 @@ router.get('/update_freev2ray', async ctx => {
   if (list.length) {
     list.forEach((item) => {
       content += `地区:${item.country} 更新时间:${item.update_time}${item.url}\n\n`
+    })
+    options.json.text.content = content
+    data = await sendMsgToDingtalk(options)
+  }
+  ctx.body = {
+    code: 200,
+    msg: '成功',
+    data: data || list.length
+  }
+})
+
+//更新 https://github.com/freefq/free 网站列表,github免费资源
+router.get('/update_gitfree', async ctx => {
+  let githubfree = new GithubFree('https://github.com/freefq/free')
+  let list = await githubfree.updateGitfree()
+  let content = 'T^T 最新免费节点列表=>\n\n'
+  let data = '暂无更新'
+  if (list.length) {
+    list.forEach((item) => {
+      content += `${item.url}\n`
     })
     options.json.text.content = content
     data = await sendMsgToDingtalk(options)

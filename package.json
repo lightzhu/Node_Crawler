@@ -4,7 +4,7 @@
   "description": "node 爬虫小程序",
   "main": "index.js",
   "scripts": {
-    "test": "export NODE_ENV='development' && nodemon index.js",
+    "test": "set NODE_ENV='development' && nodemon index.js",
     "start": "node index.js"
   },
   "engines": {

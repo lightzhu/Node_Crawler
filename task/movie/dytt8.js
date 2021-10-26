@@ -9,26 +9,11 @@ const dytt8fn = function (str, item) {
   let $ = cheerio.load(str)
   let list = []
   $('.co_content8 ul table').each(function (key, value) {
-    let $tag = $(this)
-      .find('tr')
-      .eq(1)
-    let title = $tag
-      .find('td')
-      .eq(1)
-      .find('a').eq(1)
-      .text()
-    let dist =
-      item.host +
-      $tag
-        .find('td')
-        .eq(1)
-        .find('a').eq(1)
-        .attr('href')
+    let $tag = $(this).find('tr').eq(1)
+    let title = $tag.find('td').eq(1).find('a').last().text()
+    let dist = item.host + $tag.find('td').eq(1).find('a').last().attr('href')
     let id = dist.replace(/[^0-9]/gi, '')
-    let content = $tag
-      .find('td')
-      .eq(1)
-      .find('a')
+    let content = $tag.find('td').eq(1).find('a')
     list.push({
       id,
       title,
@@ -42,6 +27,14 @@ const dytt8fn = function (str, item) {
   return list
 }
 const movieSrc = [
+  {
+    dist: 'https://www.dygod.net/html/gndy/dyzz/index.html',
+    host: 'https://www.dygod.net',
+    type: 'target',
+    charset: 'gb2312',
+    category: '2',
+    deal: dytt8fn
+  },
   {
     dist: 'https://www.dygod.net/html/gndy/china/index.html',
     host: 'https://www.dygod.net',
@@ -105,7 +98,7 @@ movieSrc.forEach((item, key) => {
 
 function updateMoviesList(data) {
   // 根据最新的电影表获取电影信息及下载链接
-  data.forEach(item => {
+  data.forEach((item) => {
     let options = {
       method: 'get',
       url: item.dist,
@@ -120,26 +113,20 @@ function updateMoviesList(data) {
         let $table = $('#Zoom table')
         let start = $contentp.text().indexOf('◎简')
         let end = $contentp.text().indexOf('◎影片截图')
-        console.log()
+        console.log('获取详情成功')
         let movieDetail = new MovieDetail({
           title: item.title,
           id: item.id,
-          postUrl: $contentp
-            .find('img')
-            .first()
-            .attr('src'),
+          postUrl: $contentp.find('img').first().attr('src'),
           content: $contentp.text().substring(start, end),
           type: item.type,
-          btUrl: $table
-            .find('tr')
-            .first()
-            .find('a')
-            .text(),
+          btUrl: $table.find('tr').first().find('a').text(),
           date: moment(new Date()).format('YYYY-MM-DD HH:mm')
         })
+
         movieDetail.save((err, res) => {
           if (err) {
-            // console.log(err)
+            console.log(err)
           }
         })
       }
@@ -150,11 +137,12 @@ function updateMoviesList(data) {
 module.exports = {
   run: function () {
     // 所有数据源拿到之后更新电影表
-    let movieList = [];
+    let movieList = []
     let newMovies = []
     return new Promise(function (reslove, reject) {
       Promise.all(promiseArr)
-        .then(result => {
+        .then((result) => {
+          console.log(result)
           for (let i = 0; i < result.length; i++) {
             movieList = movieList.concat(result[i])
           }
@@ -164,12 +152,12 @@ module.exports = {
             if (movies.length == 0) {
               movies.push(item)
             } else {
-              let had = false;
+              let had = false
               for (let j = 0; j < movies.length; j++) {
                 let mo = movies[j]
                 if (item.title == mo.title) {
-                  had = true;
-                  break;
+                  had = true
+                  break
                 }
               }
               if (!had) {
@@ -206,7 +194,7 @@ module.exports = {
             }
           })
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error)
         })
     })

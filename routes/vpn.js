@@ -1,6 +1,6 @@
 const Router = require('koa-router')
 const router = new Router()
-const { dingTalkSign } = require('../utils/index');
+const { dingTalkSign } = require('../utils/index')
 const request = require('request')
 const moment = require('moment')
 const { gateTask, Shadowsock, Freev2ray, GithubFree } = require('../task/vpn/index.js')
@@ -17,16 +17,16 @@ if (process.env.webhook && process.env.secret) {
 }
 let options = {
   headers: {
-    "Content-Type": 'application/json;charset=utf-8'
+    'Content-Type': 'application/json;charset=utf-8'
   },
   json: {
-    "msgtype": "text",
-    "text": {
-      "content": 'T^T 测试'
+    msgtype: 'text',
+    text: {
+      content: 'T^T 测试'
     },
-    "at": {
-      "atMobiles": [],
-      "isAtAll": false
+    at: {
+      atMobiles: [],
+      isAtAll: false
     }
   }
 }
@@ -46,7 +46,7 @@ function sendMsgToDingtalk(opts) {
   })
 }
 //更新vpngate站点列表
-router.get('/update_vpngates', async ctx => {
+router.get('/update_vpngates', async (ctx) => {
   let atMobiles = []
   let list = await gateTask()
   let content = 'T^T L2TP方式最新VPN列表=>\n\n'
@@ -66,9 +66,9 @@ router.get('/update_vpngates', async ctx => {
 })
 
 //更新shadowsocks（来自telegram频道）列表
-router.get('/update_shadowsocks', async ctx => {
+router.get('/update_shadowsocks', async (ctx) => {
   console.log(ctx.query.day)
-  let shadowsocks = new Shadowsock(['https://t.me/s/ssrlist', 'https://t.me/s/sslist', 'https://t.me/s/v2list', 'https://t.me/s/ivmess'], ctx.query.day) //https://t.me/s/ssrlist  https://t.me/s/sslist https://t.me/s/v2list 'https://t.me/s/SSRSUB','https://t.me/s/freessrnode',
+  let shadowsocks = new Shadowsock(['https://t.me/s/ivmess'], ctx.query.day) //https://t.me/s/ssrlist  https://t.me/s/sslist https://t.me/s/v2list 'https://t.me/s/freessrnode',
   let list = await shadowsocks.updateShadowsock()
   let data = '暂无更新'
   let content = 'T^T 最新免费节点列表=>\n\n'
@@ -86,9 +86,9 @@ router.get('/update_shadowsocks', async ctx => {
   }
 })
 
-
 //更新 https://free-ssr.xyz/ 网站列表  https://www.freefq.com/
-router.get('/update_freev2ray', async ctx => {
+// 废弃
+router.get('/update_freev2ray', async (ctx) => {
   let freev2ray = new Freev2ray(['https://api.free-ssr.xyz/ssr', 'https://api.free-ssr.xyz/v2ray'])
   let list = await freev2ray.updateV2ray()
   let content = 'T^T 最新免费节点列表=>\n\n'
@@ -98,7 +98,7 @@ router.get('/update_freev2ray', async ctx => {
       content += `地区:${item.country} 更新时间:${item.update_time}${item.url}\n\n`
     })
     options.json.text.content = content
-    data = await sendMsgToDingtalk(options)
+    // data = await sendMsgToDingtalk(options)
   }
   ctx.body = {
     code: 200,
@@ -108,7 +108,7 @@ router.get('/update_freev2ray', async ctx => {
 })
 
 //更新 https://github.com/freefq/free 网站列表,github免费资源
-router.get('/update_gitfree', async ctx => {
+router.get('/update_gitfree', async (ctx) => {
   let githubfree = new GithubFree('https://github.com/freefq/free')
   let list = await githubfree.updateGitfree()
   let content = 'T^T 最新免费节点列表=>\n\n'
